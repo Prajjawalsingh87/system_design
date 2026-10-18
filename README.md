@@ -1,164 +1,91 @@
 # System Design in C++
 
-A scalable and modular collection of system design implementations and concepts in C++.  
-This repository focuses on building real-world backend systems, low-level designs, data structures, concurrency handling, caching systems, networking concepts, and scalable architectures using modern C++.
+[![Build](https://github.com/Prajjawalsingh87/system_design/actions/workflows/build.yml/badge.svg)](https://github.com/Prajjawalsingh87/system_design/actions/workflows/build.yml)
 
----
+This is where I learn and implement system design in modern C++: object-oriented foundations first, then low-level design (LLD) problems, system components, and concurrency.
 
 ## About
 
-Hi, I'm Prajjawal 👋
+Hi, I'm Prajjawal. I use this repository to learn and practise:
 
-This repository is my learning and implementation space for:
+- Object-oriented design and the four OOP pillars
+- Low-level design (LLD) problems
+- High-level design (HLD) components
+- Design patterns in C++
+- Multithreading and concurrency
+- Scalable backend architecture
 
-- Low Level Design (LLD)
-- High Level Design (HLD)
-- Object-Oriented Design
-- Distributed Systems Concepts
-- Multithreading & Concurrency
-- Backend Architecture
-- Scalable System Components
-- Design Patterns in C++
+The goal is to understand how large systems are designed internally and to implement them in clean, efficient C++.
 
-The goal is to understand how large-scale systems are designed internally and implement them using clean and efficient C++.
+## What's implemented
 
----
+### OOP concepts
 
-## Topics Covered
+| Concept | File | Key idea |
+|---|---|---|
+| Abstraction | [oop_concepts/abstraction.cpp](oop_concepts/abstraction.cpp) | An abstract `Car` interface (pure virtual methods) says *what* a car can do. The concrete `SportsCar` implements *how*. Callers only use a `Car*`. |
+| Encapsulation | [oop_concepts/encapsulation.cpp](oop_concepts/encapsulation.cpp) | `SportsCar` keeps its state `private` and exposes getters and validated methods, so speed and gear can never be set to invalid values from outside. |
 
-### Low Level Design
-- Parking Lot System
-- Library Management System
-- Elevator System
-- Hotel Booking System
-- Splitwise Clone
-- ATM System
-- Snake and Ladder
-- Tic Tac Toe
-- Food Delivery System
+## Build and run
 
-### System Design Components
-- Rate Limiter
-- Load Balancer
-- URL Shortener
-- Notification Service
-- Chat System
-- Logging System
-- Task Scheduler
-- Cache Design (LRU/LFU)
-- Pub-Sub System
+You need `g++` with C++17 support.
 
-### Advanced Concepts
-- Multithreading
-- Mutex & Locks
-- Thread Pools
-- Producer Consumer Problem
-- Deadlock Handling
-- Memory Management
-- Smart Pointers
-- TCP/IP Basics
-- Database Indexing Concepts
+```bash
+git clone https://github.com/Prajjawalsingh87/system_design.git
+cd system_design
 
----
+mkdir -p build
+g++ -std=c++17 -Wall oop_concepts/abstraction.cpp -o build/abstraction
+./build/abstraction
+```
 
-## Tech Stack
+To compile every example at once:
 
-- Language: C++
-- STL
-- OOP Principles
-- Multithreading Libraries
-- File Handling
-- Socket Programming
-- Design Patterns
+```bash
+mkdir -p build
+failed=0
+while read -r f; do
+  g++ -std=c++17 -Wall "$f" -o "build/$(basename "$f" .cpp)" || { echo "FAILED: $f"; failed=1; }
+done < <(find . -name '*.cpp' -not -path './.git/*')
+[ "$failed" -eq 0 ]
+```
 
----
+GitHub Actions ([build.yml](.github/workflows/build.yml)) compiles every `.cpp` file on each push and pull request. A file without `main` is treated as intentionally partial and compiled with `-c`.
 
-## Folder Structure
+## Roadmap
 
-```txt
+These topics are planned and not implemented yet. Each one will get its own folder and a row in the table above.
+
+| Area | Planned topics |
+|---|---|
+| OOP concepts | Inheritance, polymorphism |
+| Low-level design (`lld/`) | Parking lot, library management, elevator, hotel booking, Splitwise clone, ATM, snake and ladder, tic tac toe, food delivery |
+| System components (`hld/`, `cache/`) | Rate limiter, load balancer, URL shortener, notification service, chat system, logging system, task scheduler, LRU/LFU cache, pub-sub |
+| Concurrency (`concurrency/`) | Threads, mutexes and locks, thread pool, producer-consumer, deadlock handling |
+| Other | Design patterns, smart pointers and memory management, TCP/IP and socket basics, database indexing concepts |
+
+Planned layout:
+
+```text
 system_design/
-│
+├── oop_concepts/
 ├── lld/
 ├── hld/
 ├── cache/
 ├── concurrency/
 ├── design_patterns/
 ├── networking/
-├── databases/
-├── projects/
-└── README.md
+└── databases/
 ```
-
----
-
-## Features
-
-- Clean and modular code
-- Beginner-friendly implementations
-- Real-world design problems
-- Scalable architecture concepts
-- Well-structured folder organization
-- Easy to extend and modify
-
----
-
-## Goals
-
-- Improve problem-solving skills
-- Understand scalable architectures
-- Build production-level thinking
-- Prepare for software engineering interviews
-- Learn practical system design in C++
-
----
-
-## Getting Started
-
-Clone the repository:
-
-```bash
-git clone https://github.com/your-username/system_design.git
-```
-
-Move into the project directory:
-
-```bash
-cd system_design
-```
-
-Compile and run:
-
-```bash
-g++ filename.cpp -o output
-./output
-```
-
----
-
-## Future Plans
-
-- Add distributed systems simulations
-- Add microservices examples
-- Implement Kafka/RabbitMQ concepts
-- Build scalable backend services
-- Add diagrams and architecture explanations
-
----
 
 ## Contributing
 
-Contributions are welcome.  
-Feel free to open issues or submit pull requests for improvements.
+Issues and pull requests are welcome. For a new example, add a self-contained `.cpp` file under the matching folder (use `snake_case` file names) and add a row to the table in "What's implemented".
 
----
+## Author
 
-## Connect With Me
-
-- GitHub: Prajjawal Singh
-- LinkedIn: Add your LinkedIn profile here
-
----
+Prajjawal Singh: <https://github.com/Prajjawalsingh87>
 
 ## License
 
-This project is open-source and available under the MIT License.
+Intended to be open source under the MIT License. A `LICENSE` file has not been added yet.

@@ -1,0 +1,42 @@
+name: Build
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Show compiler version
+        run: g++ --version
+
+      - name: Compile every .cpp file
+        run: |
+          set -u
+          failed=0
+          mkdir -p build
+          while IFS= read -r -d '' f; do
+            out="build/$(echo "${f#./}" | tr '/' '_' | sed 's/\.cpp$//')"
+            echo "::group::$f"
+            # Compile to an object first; files without main() are intentionally
+            # partial and stop here. Files that define main() are also linked.
+            if ! g++ -std=c++17 -Wall -O2 -c -o "$out.o" "$f"; then
+              echo "::error file=$f::compilation failed"; failed=1
+            elif nm "$out.o" | grep -qE ' T main$'; then
+              if g++ -o "$out" "$out.o"; then echo "OK (linked): $f"; else echo "::error file=$f::link failed"; failed=1; fi
+            else
+              echo "OK (no main, compiled with -c): $f"
+            fi
+            echo "::endgroup::"
+          done < <(find . -name '*.cpp' -not -path './.git/*' -not -path './build/*' -print0 | sort -z)
+          exit $failed
