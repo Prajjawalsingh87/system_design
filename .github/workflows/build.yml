@@ -1,0 +1,35 @@
+name: Build
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Show compiler version
+        run: g++ --version
+
+      - name: Compile every .cpp file
+        run: |
+          set -u
+          failed=0
+          mkdir -p build
+          while IFS= read -r -d '' f; do
+            out="build/$(echo "${f#./}" | tr '/' '_' | sed 's/\.cpp$//')"
+            if grep -Eq '^\s*(int|signed)\s+main\s*\(' "$f"; then
+              cmd=(g++ -std=c++17 -Wall -O2 -o "$out" "$f")
+            else
+              # Files without main() are intentionally partial: compile only.
+              cmd=(g++ -std=c++17 -Wall -O2 -c -o "$out.o" "$f")
+            fi
+            echo "::group::$f"
+            if "${cmd[@]}"; then echo "OK: $f"; else echo "::error file=$f::compilation failed"; failed=1; fi
+            echo "::endgroup::"
+          done < <(find . -name '*.cpp' -not -path './.git/*' -not -path './build/*' -print0 | sort -z)
+          exit $failed
