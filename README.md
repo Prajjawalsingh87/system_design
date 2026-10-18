@@ -43,9 +43,11 @@ To compile every example at once:
 
 ```bash
 mkdir -p build
-find . -name '*.cpp' -not -path './.git/*' | while read -r f; do
-  g++ -std=c++17 -Wall "$f" -o "build/$(basename "$f" .cpp)" || echo "FAILED: $f"
-done
+failed=0
+while read -r f; do
+  g++ -std=c++17 -Wall "$f" -o "build/$(basename "$f" .cpp)" || { echo "FAILED: $f"; failed=1; }
+done < <(find . -name '*.cpp' -not -path './.git/*')
+[ "$failed" -eq 0 ]
 ```
 
 GitHub Actions ([build.yml](.github/workflows/build.yml)) compiles every `.cpp` file on each push and pull request. A file without `main` is treated as intentionally partial and compiled with `-c`.
