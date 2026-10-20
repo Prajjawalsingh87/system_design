@@ -223,6 +223,8 @@ TEST(invalid_input_is_rejected) {
     CHECK_THROWS(s.shorten("ftp://example.com"), std::invalid_argument);
     CHECK_THROWS(s.shorten("https://"), std::invalid_argument);
     CHECK_THROWS(s.shorten("https://exa mple.com"), std::invalid_argument);
+    CHECK_THROWS(s.shorten("https://example.com/caf\xc3\xa9"), std::invalid_argument);  // raw UTF-8
+    CHECK(!s.shorten("https://example.com/caf%C3%A9").empty());                          // percent-encoded is fine
     ShortenOptions bad_alias;
     bad_alias.custom_alias = "a/b";
     CHECK_THROWS(s.shorten("https://example.com", bad_alias), std::invalid_argument);

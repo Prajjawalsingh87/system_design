@@ -7,12 +7,14 @@
 // hash(key) % N.
 #pragma once
 
+#include <cstddef>
 #include <cstdint>
 #include <functional>
 #include <map>
 #include <stdexcept>
 #include <string>
 #include <unordered_map>
+#include <utility>
 #include <vector>
 
 namespace chash {
@@ -21,7 +23,7 @@ namespace chash {
 // avalanche. Unlike std::hash it is the same on every platform and run, which
 // matters because every server must agree on where a key lives.
 inline std::uint64_t hash64(const std::string& s) {
-    std::uint64_t h = 1469598103934665603ull;
+    std::uint64_t h = 14695981039346656037ull;  // FNV-1a 64-bit offset basis
     for (unsigned char c : s) {
         h ^= c;
         h *= 1099511628211ull;

@@ -10,6 +10,7 @@
 #include <mutex>
 #include <optional>
 #include <stdexcept>
+#include <utility>
 #include <string>
 #include <unordered_map>
 
@@ -140,8 +141,11 @@ private:
         const bool https = url.rfind("https://", 0) == 0 && url.size() > 8;
         if (!http && !https) throw std::invalid_argument("URL must start with http:// or https://");
         if (url.size() > 2048) throw std::invalid_argument("URL too long");
-        for (char c : url)
+        for (char ch : url) {
+            const auto c = static_cast<unsigned char>(ch);  // same result whether char is signed or not
             if (c <= ' ' || c == 0x7f) throw std::invalid_argument("URL contains whitespace or control characters");
+            if (c >= 0x80) throw std::invalid_argument("URL must be ASCII (percent-encode other characters)");
+        }
     }
 
     static void validate_alias(const std::string& alias) {

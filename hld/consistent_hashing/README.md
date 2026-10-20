@@ -23,14 +23,14 @@ Consistent hashing places servers and keys on the same ring. A key belongs to th
 
 | Change | Keys moved |
 |---|---|
-| Consistent hashing, add a 5th node to 4 | **21.5%** (ideal 20%), all to the new node |
-| Consistent hashing, remove 1 of 5 nodes | **19.8%** (ideal 20%), only the removed node's keys |
+| Consistent hashing, add a 5th node to 4 | **19.5%** (ideal 20%), all to the new node |
+| Consistent hashing, remove 1 of 5 nodes | **18.6%** (ideal 20%), only the removed node's keys |
 | `hash % N`, 4 to 5 nodes | **80.1%** |
 
 | Load balance, 10 nodes | max / mean load |
 |---|---|
-| 1 point per node | 1.73 |
-| 200 virtual nodes per node | 1.14 |
+| 1 point per node | 2.64 |
+| 200 virtual nodes per node | 1.09 |
 
 ## Trade-offs
 

@@ -12,6 +12,7 @@
 #include <functional>
 #include <mutex>
 #include <stdexcept>
+#include <utility>
 
 class SnowflakeIdGenerator {
 public:

@@ -32,8 +32,8 @@ Placement placement(const ConsistentHashRing& ring) {
 
 TEST(hash_is_stable_across_runs) {
     // Pinned values: the ring layout must never depend on the platform, compiler or run.
-    CHECK_EQ(hash64(""), std::uint64_t{6137631918817817679ull});
-    CHECK_EQ(hash64("user:42"), std::uint64_t{14509267577577503866ull});
+    CHECK_EQ(hash64(""), std::uint64_t{17665956581633026203ull});
+    CHECK_EQ(hash64("user:42"), std::uint64_t{15459934360431365172ull});
     CHECK(hash64("a") != hash64("b"));
 }
 

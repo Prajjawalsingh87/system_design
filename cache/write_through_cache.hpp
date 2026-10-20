@@ -10,6 +10,7 @@
 // test can show what the cache saves.
 #pragma once
 
+#include <cstddef>
 #include <cstdint>
 #include <optional>
 #include <stdexcept>
