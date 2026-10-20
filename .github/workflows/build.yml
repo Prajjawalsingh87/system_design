@@ -40,3 +40,22 @@ jobs:
             echo "::endgroup::"
           done < <(find . -name '*.cpp' -not -path './.git/*' -not -path './build/*' -print0 | sort -z)
           exit $failed
+
+      - name: Run tests (*_test.cpp)
+        run: |
+          set -u
+          failed=0
+          count=0
+          while IFS= read -r -d '' f; do
+            bin="build/$(echo "${f#./}" | tr '/' '_' | sed 's/\.cpp$//')"
+            count=$((count + 1))
+            echo "::group::$f"
+            if [ ! -x "$bin" ]; then
+              echo "::error file=$f::test binary $bin was not built (does the file define main?)"; failed=1
+            elif ! "$bin"; then
+              echo "::error file=$f::tests failed"; failed=1
+            fi
+            echo "::endgroup::"
+          done < <(find . -name '*_test.cpp' -not -path './.git/*' -not -path './build/*' -print0 | sort -z)
+          echo "Ran $count test executable(s)"
+          exit $failed
