@@ -17,3 +17,7 @@ a.out
 # Binaries built next to the sources without an extension
 oop_concepts/abstraction
 oop_concepts/encapsulation
+
+.vercel/
+
+.code-review-graph/

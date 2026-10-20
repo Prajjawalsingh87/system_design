@@ -89,3 +89,14 @@ Prajjawal Singh: <https://github.com/Prajjawalsingh87>
 ## License
 
 Intended to be open source under the MIT License. A `LICENSE` file has not been added yet.
+
+
+## One-command local verification
+
+Run `python3 scripts/build.py` from any directory. Requires Python 3 and GCC with
+C++17 support. Set `CXX` to choose another GCC executable. Binaries keep their
+source directory structure under `build/`, so exercises with the same filename
+do not overwrite one another. Partial examples without `main` compile to objects.
+The command compiles examples; it does not run programs that may wait for stdin.
+
+These are native C++ exercises, not web applications; Vercel hosting is not applicable.
